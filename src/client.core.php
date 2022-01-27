@@ -235,68 +235,86 @@ class MOARC
 	}
 
 	private function getUnloggedClientInfo(string $email, string $field = ''){
-		$sql = $this->db->query("SELECT `client_password`,`client_key`,`client_recovery_key`,`client_status` FROM `".$this->table_prefix."client` WHERE `client_email` = '".$email."'");
-		if($sql->num_rows > 0)
+		$isVaildEmail = $this->validateData($email, 'email');
+		if($isVaildEmail['status'] == 'failed')
 		{
-			$data = $sql->fetch_assoc();
-			$returnData = [
-				'client_key' => $data['client_key'],
-				'password_hash' => $data['client_password'],
-				'recovery_key' => $data['client_recovery_key'],
-				'client_status' => $data['client_status']
-			];
-			if($data['client_status'] == 1)
-			{
-				$returnData['client_status'] = "verified";
-			}
-			else
-			{
-				$returnData['client_status'] = "unverified";
-			}
-			if($field == '')
-			{
-				return [
-					'status' => 'success', 
-					'data' => $returnData
-				];
-			}
-			elseif(isset($returnData[$field])){
-				return [
-					'status' => 'success', 
-					'data' => $returnData[$field]
-				];
-			}
-			else{
-				return [
-					'status' => 'failed', 
-					'data' => "Invalid index '".$field."' requested!"
-				];
-			}
+			return $isVaildEmail;
 		}
 		else
 		{
-			return [
-				'status' => 'failed', 
-				'data' => "Client with this email address doesn't exsists!"
-			];
+			$email = $isVaildEmail['data'];
+			$sql = $this->db->query("SELECT `client_password`,`client_key`,`client_recovery_key`,`client_status` FROM `".$this->table_prefix."client` WHERE `client_email` = '".$email."'");
+			if($sql->num_rows > 0)
+			{
+				$data = $sql->fetch_assoc();
+				$returnData = [
+					'client_key' => $data['client_key'],
+					'password_hash' => $data['client_password'],
+					'recovery_key' => $data['client_recovery_key'],
+					'client_status' => $data['client_status']
+				];
+				if($data['client_status'] == 1)
+				{
+					$returnData['client_status'] = "verified";
+				}
+				else
+				{
+					$returnData['client_status'] = "unverified";
+				}
+				if($field == '')
+				{
+					return [
+						'status' => 'success', 
+						'data' => $returnData
+					];
+				}
+				elseif(isset($returnData[$field])){
+					return [
+						'status' => 'success', 
+						'data' => $returnData[$field]
+					];
+				}
+				else{
+					return [
+						'status' => 'failed', 
+						'data' => "Invalid index '".$field."' requested!"
+					];
+				}
+			}
+			else
+			{
+				return [
+					'status' => 'failed', 
+					'data' => "Client with this email address doesn't exsists!"
+				];
+			}
 		}
 	}
 
 	private function isRegistered(string $email){
-		$sql = $this->db->query("SELECT `client_id` FROM `".$this->table_prefix."client` WHERE `client_email` = '".$email."'");
-		if($sql->num_rows > 0)
+		$isVaildEmail = $this->validateData($email, 'email');
+		if($isVaildEmail['status'] == 'failed')
 		{
-			return [
-				'status' => 'success', 
-				'data' => "Client already exsists with this email address!"
-			];
+			return $isVaildEmail;
 		}
 		else
 		{
-			return [
-				'status' => 'failed', 
-				'data' => "Client with this email address doesn't exsists!"
-			];
+			$email = $isVaildEmail['data'];
+			$sql = $this->db->query("SELECT `client_id` FROM `".$this->table_prefix."client` WHERE `client_email` = '".$email."'");
+			if($sql->num_rows > 0)
+			{
+				return [
+					'status' => 'success', 
+					'data' => "Client already exsists with this email address!"
+				];
+			}
+			else
+			{
+				return [
+					'status' => 'failed', 
+					'data' => "Client with this email address doesn't exsists!"
+				];
+			}
 		}
 	}
 
@@ -361,6 +379,8 @@ class MOARC
 			}
 			else
 			{
+				$name = $isVaildName['data'];
+				$email = $isVaildEmail['data'];
 				$password = $this->hashPassword($password);
 				$client_key = $this->createClientKey();
 				$recovery_key = $this->createRecoveryKey();
@@ -401,43 +421,52 @@ class MOARC
 		}
 	}
 
-	public function LoginClient(string $email, string $password, int $days = 1)
+	public function LogClientIn(string $email, string $password, int $days = 1)
 	{
-		$isRegistered = $this->isRegistered($email);
-		if($isRegistered['status'] == 'failed')
+		$isVaildEmail = $this->validateData($email, 'email');
+		if($isVaildEmail['status'] == 'failed')
 		{
-			return $isRegistered;
+			return $isVaildEmail;
 		}
 		else
 		{
-			$password1 = $this->getUnloggedClientInfo($email, 'password_hash');
-			$client_key = $this->getUnloggedClientInfo($email, 'client_key');
-			$validatePassword = $this->verifyPassword($password, $password1['data']);
-			if($validatePassword['status'] == 'success')
+			$isRegistered = $this->isRegistered($email);
+			if($isRegistered['status'] == 'failed')
 			{
-				setcookie(
-					$this->cookie_name,
-					base64_encode(
-						gzcompress(
-							json_encode(
-								[
-									$email,
-									md5($client_key['data'])
-								]
-							)
-						)
-					),
-					time() + $days * 86400,
-					'/'
-				);
-				return [
-					'status' => 'success',
-					'data' => 'Client logged in successfully!'
-				];
+				return $isRegistered;
 			}
 			else
 			{
-				return $validatePassword;
+				$email = $isVaildEmail['data'];
+				$password1 = $this->getUnloggedClientInfo($email, 'password_hash');
+				$client_key = $this->getUnloggedClientInfo($email, 'client_key');
+				$validatePassword = $this->verifyPassword($password, $password1['data']);
+				if($validatePassword['status'] == 'success')
+				{
+					setcookie(
+						$this->cookie_name,
+						base64_encode(
+							gzcompress(
+								json_encode(
+									[
+										$email,
+										md5($client_key['data'])
+									]
+								)
+							)
+						),
+						time() + $days * 86400,
+						'/'
+					);
+					return [
+						'status' => 'success',
+						'data' => 'Client logged in successfully!'
+					];
+				}
+				else
+				{
+					return $validatePassword;
+				}
 			}
 		}
 	}
@@ -465,6 +494,8 @@ class MOARC
 			}
 			else
 			{
+
+				$CookieData[0] = $isVaildEmail['data'];
 				$isRegistered = $this->isRegistered($CookieData[0]);
 				if($isRegistered['status'] == 'failed')
 				{
@@ -500,7 +531,7 @@ class MOARC
 		{
 			return [
 				'status' => 'failed',
-				'data' => 'no client currently logged in!'
+				'data' => 'No client currently logged in!'
 			];
 		}
 	}
@@ -543,6 +574,8 @@ class MOARC
 			}
 			else
 			{
+
+				$email = $isVaildEmail['data'];
 				$client_status = $this->getUnloggedClientInfo($email, 'client_status');
 				return [
 					'status' => 'success',
@@ -571,6 +604,7 @@ class MOARC
 				$recovery_key1 = $this->getUnloggedClientInfo($email, 'recovery_key');
 				if($recovery_key == $recovery_key1['data'])
 				{
+					$email = $isVaildEmail['data'];
 					$sql = $this->db->query('UPDATE `'.$this->table_prefix.'client` SET `client_password` = "'.$this->hashPassword($password).'" WHERE `client_email` = "'.$email.'"');
 					if($sql)
 					{
@@ -614,6 +648,7 @@ class MOARC
 			}
 			else
 			{
+				$email = $isVaildEmail['data'];
 				$recovery_key = $this->createRecoveryKey();
 				$sql = $this->db->query('UPDATE `'.$this->table_prefix.'client` SET `client_recovery_key` = "'.$recovery_key.'" WHERE `client_email` = "'.$email.'"');
 				if($sql)
@@ -704,6 +739,87 @@ class MOARC
 		else
 		{
 			throw new \Exception("Configuration file not found!");
+		}
+	}
+
+	public function getLoggedClientInfo(string $field = '')
+	{
+		$isLogged = $this->isLogged();
+		if($isLogged['status'] == 'failed')
+		{
+			return $isLogged;
+		}
+		else
+		{
+			$CookieData = json_decode(
+							gzuncompress(
+								base64_decode(
+									$_COOKIE[$this->cookie_name]
+								)
+							)
+						);
+			$isVaildEmail = $this->validateData($CookieData[0], 'email');
+			if($isVaildEmail['status'] == 'failed')
+			{
+				return $isVaildEmail;
+			}
+			else
+			{
+				$email = $isVaildEmail['data'];
+				$isRegistered = $this->isRegistered($email);
+				if($isRegistered['status'] == 'failed')
+				{
+					return $isRegistered;
+				}
+				else
+				{
+					$sql = $this->db->query("SELECT `client_name`,`client_key`,`client_recovery_key`,`client_status`,`client_date` FROM `".$this->table_prefix."client` WHERE `client_email` = '".$email."'");
+					if($sql){
+						$data = $sql->fetch_assoc();
+						$returnData = [
+							'name' => $data['client_name'],
+							'email' => $email,
+							'date' => date('d F Y', $data['client_date']),
+							'client_key' => $data['client_key'],
+							'recovery_key' => $data['client_recovery_key'],
+							'status' => ''
+						];
+						if($data['client_status'] == 1)
+						{
+							$returnData['status'] = "verified";
+						}
+						else
+						{
+							$returnData['status'] = "unverified";
+						}
+						if($field == '')
+						{
+							return [
+								'status' => 'success', 
+								'data' => $returnData
+							];
+						}
+						elseif(isset($returnData[$field])){
+							return [
+								'status' => 'success', 
+								'data' => $returnData[$field]
+							];
+						}
+						else{
+							return [
+								'status' => 'failed', 
+								'data' => "Invalid index '".$field."' requested!"
+							];
+						}
+					}
+					else{
+						return [
+							'status' => 'failed',
+							'data' => "Something went's wrong while processing the request!"
+						];
+					}
+				}
+			}
 		}
 	}
 }
