@@ -23,7 +23,7 @@ MOARC is a Lightweight MOFH Web Hosting and Let's Encrypt SSL Management library
 
 Some of the features are listed below:
 - Registration and Login system. 
-- <s>User profile management system.</s>
+- User profile management system.
 - Password and Secret key reset system.
 - <s>MyOwnFreeHost accounts management system.</s>
 - <s>Let's Encrypt SSL management system. </s>
@@ -55,7 +55,7 @@ The following libraries are required to run MOARC:
 - PHPMailer ^5.2
 - <s>MOFH-Client ^0.7.1</s>
   - <s>GuzzleHTTP</s>
-  - Promises
+  - <s>Promises</s>
   - PSR-4
 - <s>LEClient ^1.3.0</s>
 
