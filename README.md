@@ -9,6 +9,7 @@ MOARC is a Lightweight MOFH Web Hosting and Let's Encrypt SSL Management library
 ![AppVeyor](https://img.shields.io/badge/MySQL-5.2-lightgrey)
 ![AppVeyor](https://img.shields.io/badge/Type-Library-lightgrey)
 ![AppVeyor](https://img.shields.io/badge/forked-MOFHY_Lite-lightgrey)
+![GitHub all releases](https://img.shields.io/github/downloads/NXTS-Developers/MOARC/total?style=plastic)
 
 ## Table of Content 
 
