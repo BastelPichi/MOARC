@@ -54,7 +54,7 @@ MOARC is prtty easy to install by just following some simple steps:
 The following libraries are required to run MOARC:
 - PHPMailer ^5.2
 - <s>MOFH-Client ^0.7.1</s>
-  - GuzzleHTTP
+  - <s>GuzzleHTTP</s>
   - Promises
   - PSR-4
 - <s>LEClient ^1.3.0</s>
