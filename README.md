@@ -16,6 +16,7 @@ MOARC is a Lightweight MOFH Web Hosting and Let's Encrypt SSL Management library
 - [Features](#features)
 - [Requirements](#requirements) 
 - [Installation](#installation)
+- [Documentation](#documentation)
 - [Dependencies](#dependencies)
 - [Contributer](#contributer)
 - [Copyright](#copyright)
@@ -50,6 +51,10 @@ MOARC is prtty easy to install by just following some simple steps:
 - Setup database by importing ```table.sql``` file.
 - That's it.
 
+## Documentation 
+
+Documentation of using all functions and objects can be found on our [wiki](https://github.com/NXTS-Developers/MOARC/wiki/).
+
 ## Dependencies
 
 The following libraries are required to run MOARC:
@@ -57,11 +62,11 @@ The following libraries are required to run MOARC:
 - <s>MOFH-Client ^0.7.1</s>
   - <s>GuzzleHTTP</s>
   - <s>Promises</s>
-  - PSR-4
+  - <s>PSR-4</s>
 - <s>LEClient ^1.3.0</s>
 
 ## Contributer
-This library is created, modified and maintained by [NXTS Developer](https://github.com/NXTS-Developer).
+This library is created, modified and maintained by [NXTS Developers](https://github.com/NXTS-Developers).
 
 ## Copyright
 ©️ Copyright 2022 NXTS Developer. Code released under the MPL License.
