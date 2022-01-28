@@ -1,4 +1,5 @@
 {
+    "name": "mahtab2003/moarc", 
     "require": {
         "phpmailer/phpmailer": "5.2"
     }
