@@ -47,7 +47,7 @@ MOARC is prtty easy to install by just following some simple steps:
 - Run following command on terminal inorder to install moarc and its dependencies.
 ``` composer require mahtab2003/moarc ``` 
 - Change parameters in ```src/Client.php``` and ```config.php``` files.
-- Setup database by importing ```table.sql``` file.
+- Setup database by importing ```db/table.sql``` file.
 - That's it.
 
 ## Dependencies
