@@ -13,6 +13,15 @@ $Config = [
 		'port' => '',
 		'from' => '',
 		'name' => '',
-	]
+	], 
+        'mofh' => [
+		'username' => '',
+		'password' => '',
+		'cpanel_uri' => '',
+		'plan' => '',
+		'ns_1' => '',
+		'ns_2' => ''
+	],
+        'vendor' => []
 ];
 ?>
