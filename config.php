@@ -14,7 +14,7 @@ $Config = [
 		'from' => '',
 		'name' => '',
 	], 
-     'mofh' => [
+    'mofh' => [
 		'username' => '',
 		'password' => '',
 		'cpanel_uri' => '',
@@ -22,6 +22,6 @@ $Config = [
 		'ns_1' => '',
 		'ns_2' => ''
 	],
-     'vendor' => []
+    'vendor' => []
 ];
 ?>
