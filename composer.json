@@ -1,6 +1,22 @@
 {
-    "name": "mahtab2003/moarc", 
+    "name": "mahtab2003/moarc",
+    "description": "A MOFH web hosting management system with Let's Encrypt SSL.",
+    "type": "library",
     "require": {
-        "phpmailer/phpmailer": "5.2"
-    }
+        "phpmailer/phpmailer": "5.2",
+        "infinityfree/mofh-client": "^0.7.1"
+    },
+    "license": "MPL",
+	"autoload":{
+		"psr-4":{
+			"Mahtab2003\\MOARC\\": "src/"
+		}
+	},
+    "authors": [
+        {
+            "name": "Mahtab Hassan",
+            "email": "mahtabhassab159@gmail.com"
+        }
+    ],
+    "minimum-stability": "alpha"
 }
