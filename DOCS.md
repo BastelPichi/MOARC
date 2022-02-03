@@ -1,4 +1,4 @@
-## Tavle of Content
+## Table of Content
 A list of supported functions is given below:
 - [Get Started](#get-started)
 - [Template System](#template-system)
