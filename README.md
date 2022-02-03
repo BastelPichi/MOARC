@@ -62,7 +62,7 @@ The following libraries are required to run MOARC:
 
 ## Documentation
 
-A full guide of `how to use moarc` can be found on our [wiki](Docs.md).
+A full guide of `how to use moarc` can be found on our [docs](DOCS.md).
 
 ## Contributer
 This library is created, modified and maintained by [NXTS Developers](https://github.com/NXTS-Developers).
