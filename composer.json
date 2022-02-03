@@ -1,6 +1,6 @@
 {
     "name": "mahtab2003/moarc",
-    "description": "A MOFH web hosting management system with Let's Encrypt SSL.",
+    "description": "MOARC is a Lightweight MOFH Web Hosting and Let's Encrypt and GoGetSSL SSL Management library written in php specially for small hosting platforms.",
     "type": "library",
     "require": {
         "phpmailer/phpmailer": "5.2",
