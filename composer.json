@@ -6,7 +6,7 @@
         "phpmailer/phpmailer": "5.2",
         "infinityfree/mofh-client": "^0.7.1"
     },
-    "license": "MPL",
+    "license": "MPL-2.0",
 	"autoload":{
 		"psr-4":{
 			"Mahtab2003\\MOARC\\": "src/"
