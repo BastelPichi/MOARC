@@ -11,7 +11,7 @@ namespace Mahtab2003\MOARC;
  * Contact: mahtabhassan159@gmail.com
  */
 
-class MOARC_Client
+class Client
 {
 	private $db;
 	private $mofh;
